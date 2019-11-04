@@ -35,6 +35,13 @@ class World:
         self.width = width
         self.height = 32
 
+    def blockAt(self, x, y):
+        for block in self.blockList.sprites():
+            if(block.rect.collidepoint(x, y)):
+                return block
+
+        return None
+
     def generate(self):
         for x in range(self.width):
             y = self.generator.getHeight(x)

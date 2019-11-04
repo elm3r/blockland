@@ -21,54 +21,45 @@ class Player(pygame.sprite.Sprite):
         self.cameraOffset = offset
         return offset
 
-    def tick(self, blockList):
+    def isOnFloor(self, world):
+        if (world.blockAt(self.rect.x, self.rect.y + 66) or world.blockAt(self.rect.x + 32, self.rect.y + 66)):
+            return True
+        return False
+
+    def tick(self, world):
         self.yVelocity += self.grav
         if(self.yVelocity < -self.maxYVelocity):
             self.yVelocity = -self.maxYVelocity
 
-        for block in blockList.sprites():
-            if(block.rect.collidepoint(self.rect.x, self.rect.y + 66) or block.rect.collidepoint(self.rect.x + 32, self.rect.y + 66)):
-                if(self.yVelocity < 0):
-                    self.yVelocity = 0
+        if(self.isOnFloor(world)):
+            if(self.yVelocity < 0):
+                self.yVelocity = 0
 
-        self.move(blockList, [0, self.yVelocity])
+        self.move(world, [0, self.yVelocity])
 
-    def move(self, blockList, offset):
+    def move(self, world, offset):
         moveX = True
         moveY = True
-        for block in blockList.sprites():
-            if(offset[1] < 0):
-                if(block.rect.collidepoint(self.rect.x, self.rect.y + 64 - offset[1]) or block.rect.collidepoint(self.rect.x + 32, self.rect.y + 64 - offset[1])):
-                    if not(block.rect.collidepoint(self.rect.x, self.rect.y + 66) or block.rect.collidepoint(self.rect.x + 32, self.rect.y + 66)):
-                        self.y -= 1
-                    moveY = False
 
-            if(offset[0] > 0):
-                if(block.rect.collidepoint(self.rect.x - offset[0], self.rect.y + 64)):
-                    if(not block.rect.collidepoint(self.rect.x - 2, self.rect.y + 64)):
+        if(offset[1] < 0):
+            if(world.blockAt(self.rect.x, self.rect.y + 64 - offset[1]) or world.blockAt(self.rect.x + 32, self.rect.y + 64 - offset[1])):
+                moveY = False
+                if not(self.isOnFloor(world)):
+                    self.y -= 1
+
+        checkPoints = [64, 32, 0]
+        if(offset[0] > 0):
+            for checkPoint in checkPoints:
+                if(world.blockAt(self.rect.x - offset[0], self.rect.y + checkPoint)):
+                    moveX = False
+                    if not(world.blockAt(self.rect.x - 2, self.rect.y + checkPoint)):
                         self.x -= 1
+        else:
+            for checkPoint in checkPoints:
+                if(world.blockAt(self.rect.x + 32 - offset[0], self.rect.y + checkPoint)):
                     moveX = False
-                elif(block.rect.collidepoint(self.rect.x - offset[0], self.rect.y + 32)):
-                    if(not block.rect.collidepoint(self.rect.x - 2, self.rect.y + 32)):
-                        self.x -= 1
-                    moveX = False
-                elif(block.rect.collidepoint(self.rect.x - offset[0], self.rect.y)):
-                    if(not block.rect.collidepoint(self.rect.x - 2, self.rect.y)):
-                        self.x -= 1
-                    moveX = False
-            else:
-                if(block.rect.collidepoint(self.rect.x + 32 + -offset[0], self.rect.y + 64)):
-                    if(not block.rect.collidepoint(self.rect.x + 34, self.rect.y + 64)):
+                    if not(world.blockAt(self.rect.x + 34, self.rect.y + checkPoint)):
                         self.x += 1
-                    moveX = False
-                elif(block.rect.collidepoint(self.rect.x + 32 + -offset[0], self.rect.y + 32)):
-                    if(not block.rect.collidepoint(self.rect.x + 34, self.rect.y + 32)):
-                        self.x += 1
-                    moveX = False
-                elif(block.rect.collidepoint(self.rect.x + 32 + -offset[0], self.rect.y)):
-                    if(not block.rect.collidepoint(self.rect.x + 34, self.rect.y)):
-                        self.x += 1
-                    moveX = False
 
         if(moveX):
             self.x += offset[0]

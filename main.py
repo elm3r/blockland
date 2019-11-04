@@ -16,7 +16,7 @@ clock = pygame.time.Clock()
 player = blockland.player.Player()
 player.rect.x = 384
 player.rect.y = 268
-world = blockland.world.World(32, int(random() * 100000))
+world = blockland.world.World(64, int(random() * 100000))
 world.generate()
 world.entities.add(player)
 hotbar = blockland.gui.Hotbar()
@@ -45,9 +45,9 @@ while running:
 	# Player Code
 	keysPressed = pygame.key.get_pressed()
 	if(keysPressed[pygame.K_a]):
-		player.move(world.blockList, [player.movementSpeed, 0])
+		player.move(world, [player.movementSpeed, 0])
 	if(keysPressed[pygame.K_d]):
-		player.move(world.blockList, [-player.movementSpeed, 0])
+		player.move(world, [-player.movementSpeed, 0])
 
 	# Hotbar Code
 	if(keysPressed[pygame.K_1]):
@@ -73,25 +73,20 @@ while running:
 
 	# Left Click
 	if(pygame.mouse.get_pressed()[0]):
-		for block in world.blockList.sprites():
-			if(block.rect.collidepoint(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])):
-				world.blockList.remove(block)
+		block = world.blockAt(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+		if(block != None):
+			world.blockList.remove(block)
 
 	# Right Click
 	if(pygame.mouse.get_pressed()[2]):
-		blockFound = False
-		for block in world.blockList.sprites():
-			if(block.rect.collidepoint(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])):
-				blockFound = True
-
-		if(blockFound == False):
+		if not(world.blockAt(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])):
 			clickX = pygame.mouse.get_pos()[0] - player.cameraOffset[0]
 			clickY = pygame.mouse.get_pos()[1] - player.cameraOffset[1]
 			gridX = (clickX - (clickX % 32)) / 32
 			gridY = (clickY - (clickY % 32)) / 32
 			world.createBlock(gridX, gridY, hotbar.selected)
 
-	player.tick(world.blockList)
+	player.tick(world)
 	clock.tick(60)
 	player.calculateCameraOffset()
 	world.draw(screen, player.cameraOffset)
