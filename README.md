@@ -11,11 +11,9 @@ Currently just a player and some blocks.
 ### Known Issues  
 - Collision detection is buggy at best.
 - Blocks break immediately, making this a glorified Paint program
-- Textures are bad
 
 ### TODO
 - Fix collision detection
-- Make better textures
 - Add health bar
 - Add proper inventory system
 - Add enemies
