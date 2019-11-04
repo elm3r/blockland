@@ -4,6 +4,7 @@ import pygame
 import math
 import blockland.player
 import blockland.world
+import blockland.gui
 
 # Initialize Pygame
 pygame.init()
@@ -16,6 +17,17 @@ player.rect.y = 268
 world = blockland.world.World(32, 1234)
 world.generate()
 world.entities.add(player)
+hotbar = blockland.gui.Hotbar()
+hotbar.items.append(pygame.image.load("res/grass.png"))
+hotbar.items.append(pygame.image.load("res/dirt.png"))
+hotbar.items.append(pygame.image.load("res/stone.png"))
+hotbar.items.append(pygame.image.load("res/brick.png"))
+hotbar.items.append(pygame.image.load("res/wood.png"))
+hotbar.items.append(pygame.image.load("res/gold.png"))
+hotbar.items.append(pygame.image.load("res/iron.png"))
+hotbar.items.append(pygame.image.load("res/diamond.png"))
+hotbar.items.append(pygame.image.load("res/leaves.png"))
+hotbar.items.append(pygame.image.load("res/tnt.png"))
 
 while running:
 	screen.fill((58, 132, 253))
@@ -35,6 +47,28 @@ while running:
 	if(keysPressed[pygame.K_d]):
 		player.x -= player.movementSpeed
 
+	# Hotbar Code
+	if(keysPressed[pygame.K_1]):
+		hotbar.selected = 0
+	if(keysPressed[pygame.K_2]):
+		hotbar.selected = 1
+	if(keysPressed[pygame.K_3]):
+		hotbar.selected = 2
+	if(keysPressed[pygame.K_4]):
+		hotbar.selected = 3
+	if(keysPressed[pygame.K_5]):
+		hotbar.selected = 4
+	if(keysPressed[pygame.K_6]):
+		hotbar.selected = 5
+	if(keysPressed[pygame.K_7]):
+		hotbar.selected = 6
+	if(keysPressed[pygame.K_8]):
+		hotbar.selected = 7
+	if(keysPressed[pygame.K_9]):
+		hotbar.selected = 8
+	if(keysPressed[pygame.K_0]):
+		hotbar.selected = 9
+
 	# Left Click
 	if(pygame.mouse.get_pressed()[0]):
 		for block in world.blockList.sprites():
@@ -53,8 +87,9 @@ while running:
 			clickY = pygame.mouse.get_pos()[1] - player.cameraOffset[1]
 			gridX = (clickX - (clickX % 32)) / 32
 			gridY = (clickY - (clickY % 32)) / 32
-			world.createBlock(gridX, gridY, 1)
+			world.createBlock(gridX, gridY, hotbar.selected)
 
 	player.calculateCameraOffset()
 	world.draw(screen, player.cameraOffset)
+	hotbar.draw(screen)
 	pygame.display.update()

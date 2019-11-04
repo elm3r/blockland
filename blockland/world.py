@@ -5,6 +5,14 @@ import pygame
 blockImages = []
 blockImages.append(pygame.image.load("res/grass.png"))
 blockImages.append(pygame.image.load("res/dirt.png"))
+blockImages.append(pygame.image.load("res/stone.png"))
+blockImages.append(pygame.image.load("res/brick.png"))
+blockImages.append(pygame.image.load("res/wood.png"))
+blockImages.append(pygame.image.load("res/gold.png"))
+blockImages.append(pygame.image.load("res/iron.png"))
+blockImages.append(pygame.image.load("res/diamond.png"))
+blockImages.append(pygame.image.load("res/leaves.png"))
+blockImages.append(pygame.image.load("res/tnt.png"))
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, image):
