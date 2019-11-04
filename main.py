@@ -34,6 +34,11 @@ while running:
 	if(keysPressed[pygame.K_d]):
 		player.x -= player.movementSpeed
 
+	if(pygame.mouse.get_pressed()[0]):
+		for block in world.blockList.sprites():
+			if(block.rect.collidepoint(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])):
+				world.blockList.remove(block)
+
 	player.calculateCameraOffset()
 	world.draw(screen, player.cameraOffset)
 	pygame.display.update()
