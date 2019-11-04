@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
             self.yVelocity = -self.maxYVelocity
 
         for block in blockList.sprites():
-            if(block.rect.collidepoint(self.rect.x, self.rect.y + 65) or block.rect.collidepoint(self.rect.x + 32, self.rect.y + 65)):
+            if(block.rect.collidepoint(self.rect.x, self.rect.y + 66) or block.rect.collidepoint(self.rect.x + 32, self.rect.y + 66)):
                 if(self.yVelocity < 0):
                     self.yVelocity = 0
 
@@ -38,19 +38,22 @@ class Player(pygame.sprite.Sprite):
         moveY = True
         for block in blockList.sprites():
             if(offset[1] < 0):
-                if(block.rect.collidepoint(self.rect.x, self.rect.y + 65) or block.rect.collidepoint(self.rect.x + 32, self.rect.y + 65)):
+                if(block.rect.collidepoint(self.rect.x, self.rect.y + 64 - offset[1]) or block.rect.collidepoint(self.rect.x + 32, self.rect.y + 64 - offset[1])):
+                    if not(block.rect.collidepoint(self.rect.x, self.rect.y + 66) or block.rect.collidepoint(self.rect.x + 32, self.rect.y + 66)):
+                        self.y -= 1
                     moveY = False
 
             if(offset[0] > 0):
-                if(block.rect.collidepoint(self.rect.x - self.movementSpeed, self.rect.y + 63)):
-                    if(block.rect.collidepoint(self.rect.x -1, self.rect.y + 63)):
+                if(block.rect.collidepoint(self.rect.x - offset[0], self.rect.y + 64)):
+                    if(not block.rect.collidepoint(self.rect.x - 2, self.rect.y + 64)):
                         self.x -= 1
                     moveX = False
             else:
-                if(block.rect.collidepoint(self.rect.x + 32 + self.movementSpeed, self.rect.y + 63)):
-                    if(block.rect.collidepoint(self.rect.x + 33, self.rect.y + 63)):
+                if(block.rect.collidepoint(self.rect.x + 32 + offset[0], self.rect.y + 64)):
+                    if(not block.rect.collidepoint(self.rect.x + 34, self.rect.y + 64)):
                         self.x += 1
                     moveX = False
+
         if(moveX):
             self.x += offset[0]
 

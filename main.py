@@ -11,6 +11,7 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 running = True
 
+clock = pygame.time.Clock()
 player = blockland.player.Player()
 player.rect.x = 384
 player.rect.y = 268
@@ -90,7 +91,7 @@ while running:
 			world.createBlock(gridX, gridY, hotbar.selected)
 
 	player.tick(world.blockList)
-
+	clock.tick(60)
 	player.calculateCameraOffset()
 	world.draw(screen, player.cameraOffset)
 	hotbar.draw(screen)
