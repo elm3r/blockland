@@ -23,6 +23,7 @@ class World:
         self.width = width
         self.blockImages = []
         self.height = 32
+        self.dirtHeight = 4
 
     def blockAt(self, x, y):
         for block in self.blockList.sprites():
@@ -35,9 +36,12 @@ class World:
         for x in range(self.width):
             y = self.generator.getHeight(x)
             self.createBlock(x, y)
-            for i in range(self.height):
+            for i in range(self.dirtHeight):
                 y += 1
                 self.createBlock(x, y, 1)
+            for i in range(self.height - self.dirtHeight):
+                y += 1
+                self.createBlock(x, y, 2)
 
     def createBlock(self, x, y, type=0):
         block = Block(self.blockImages[type])
