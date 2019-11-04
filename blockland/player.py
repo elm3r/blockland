@@ -48,9 +48,25 @@ class Player(pygame.sprite.Sprite):
                     if(not block.rect.collidepoint(self.rect.x - 2, self.rect.y + 64)):
                         self.x -= 1
                     moveX = False
+                elif(block.rect.collidepoint(self.rect.x - offset[0], self.rect.y + 32)):
+                    if(not block.rect.collidepoint(self.rect.x - 2, self.rect.y + 32)):
+                        self.x -= 1
+                    moveX = False
+                elif(block.rect.collidepoint(self.rect.x - offset[0], self.rect.y)):
+                    if(not block.rect.collidepoint(self.rect.x - 2, self.rect.y)):
+                        self.x -= 1
+                    moveX = False
             else:
-                if(block.rect.collidepoint(self.rect.x + 32 + offset[0], self.rect.y + 64)):
+                if(block.rect.collidepoint(self.rect.x + 32 + -offset[0], self.rect.y + 64)):
                     if(not block.rect.collidepoint(self.rect.x + 34, self.rect.y + 64)):
+                        self.x += 1
+                    moveX = False
+                elif(block.rect.collidepoint(self.rect.x + 32 + -offset[0], self.rect.y + 32)):
+                    if(not block.rect.collidepoint(self.rect.x + 34, self.rect.y + 32)):
+                        self.x += 1
+                    moveX = False
+                elif(block.rect.collidepoint(self.rect.x + 32 + -offset[0], self.rect.y)):
+                    if(not block.rect.collidepoint(self.rect.x + 34, self.rect.y)):
                         self.x += 1
                     moveX = False
 
