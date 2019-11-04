@@ -2,18 +2,6 @@
 from opensimplex import OpenSimplex
 import pygame
 
-blockImages = []
-blockImages.append(pygame.image.load("res/grass.png"))
-blockImages.append(pygame.image.load("res/dirt.png"))
-blockImages.append(pygame.image.load("res/stone.png"))
-blockImages.append(pygame.image.load("res/brick.png"))
-blockImages.append(pygame.image.load("res/wood.png"))
-blockImages.append(pygame.image.load("res/gold.png"))
-blockImages.append(pygame.image.load("res/iron.png"))
-blockImages.append(pygame.image.load("res/diamond.png"))
-blockImages.append(pygame.image.load("res/leaves.png"))
-blockImages.append(pygame.image.load("res/tnt.png"))
-
 class Block(pygame.sprite.Sprite):
     def __init__(self, image):
         self.id = 0
@@ -33,6 +21,7 @@ class World:
         self.blockList = pygame.sprite.Group()
         self.entities = pygame.sprite.Group()
         self.width = width
+        self.blockImages = []
         self.height = 32
 
     def blockAt(self, x, y):
@@ -51,7 +40,7 @@ class World:
                 self.createBlock(x, y, 1)
 
     def createBlock(self, x, y, type=0):
-        block = Block(blockImages[type])
+        block = Block(self.blockImages[type])
         block.rect.x = x * 32
         block.rect.y = y * 32
         block.x = x * 32

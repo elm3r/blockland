@@ -17,19 +17,13 @@ player = blockland.player.Player()
 player.rect.x = 384
 player.rect.y = 268
 world = blockland.world.World(64, int(random() * 100000))
+hotbar = blockland.gui.Hotbar()
+itemImages = ["res/grass.png", "res/dirt.png", "res/stone.png", "res/brick.png", "res/wood.png", "res/gold.png", "res/iron.png", "res/diamond.png", "res/leaves.png", "res/tnt.png", ]
+for image in itemImages:
+	hotbar.items.append(pygame.image.load(image))
+	world.blockImages.append(pygame.image.load(image))
 world.generate()
 world.entities.add(player)
-hotbar = blockland.gui.Hotbar()
-hotbar.items.append(pygame.image.load("res/grass.png"))
-hotbar.items.append(pygame.image.load("res/dirt.png"))
-hotbar.items.append(pygame.image.load("res/stone.png"))
-hotbar.items.append(pygame.image.load("res/brick.png"))
-hotbar.items.append(pygame.image.load("res/wood.png"))
-hotbar.items.append(pygame.image.load("res/gold.png"))
-hotbar.items.append(pygame.image.load("res/iron.png"))
-hotbar.items.append(pygame.image.load("res/diamond.png"))
-hotbar.items.append(pygame.image.load("res/leaves.png"))
-hotbar.items.append(pygame.image.load("res/tnt.png"))
 
 while running:
 	screen.fill((58, 132, 253))
