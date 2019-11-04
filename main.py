@@ -36,16 +36,16 @@ while running:
 		if(event.type == pygame.QUIT):
 			running = False
 
+		if(event.type == pygame.KEYDOWN):
+			if(event.key == pygame.K_SPACE):
+				player.yVelocity += 10
+
 	# Player Code
 	keysPressed = pygame.key.get_pressed()
-	if(keysPressed[pygame.K_w]):
-		player.y += player.movementSpeed
-	if(keysPressed[pygame.K_s]):
-		player.y -= player.movementSpeed
 	if(keysPressed[pygame.K_a]):
-		player.x += player.movementSpeed
+		player.move(world.blockList, [player.movementSpeed, 0])
 	if(keysPressed[pygame.K_d]):
-		player.x -= player.movementSpeed
+		player.move(world.blockList, [-player.movementSpeed, 0])
 
 	# Hotbar Code
 	if(keysPressed[pygame.K_1]):
@@ -88,6 +88,8 @@ while running:
 			gridX = (clickX - (clickX % 32)) / 32
 			gridY = (clickY - (clickY % 32)) / 32
 			world.createBlock(gridX, gridY, hotbar.selected)
+
+	player.tick(world.blockList)
 
 	player.calculateCameraOffset()
 	world.draw(screen, player.cameraOffset)
