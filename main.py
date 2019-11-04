@@ -1,10 +1,11 @@
-print("Block Land ALPHA")
+print("Blockland Alpha (Version 0.01a)")
 
 import pygame
 import math
 import blockland.player
 import blockland.world
 import blockland.gui
+from random import random
 
 # Initialize Pygame
 pygame.init()
@@ -15,7 +16,7 @@ clock = pygame.time.Clock()
 player = blockland.player.Player()
 player.rect.x = 384
 player.rect.y = 268
-world = blockland.world.World(32, 1234)
+world = blockland.world.World(32, int(random() * 100000))
 world.generate()
 world.entities.add(player)
 hotbar = blockland.gui.Hotbar()
