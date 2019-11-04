@@ -16,7 +16,7 @@ class Block(pygame.sprite.Sprite):
         super().__init__()
 
     def move(self, offset):
-        self.rect.x =  self.x + offset[0]
+        self.rect.x = self.x + offset[0]
         self.rect.y = self.y + offset[1]
 
 class World:

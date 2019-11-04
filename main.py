@@ -1,6 +1,7 @@
 print("Block Land ALPHA")
 
 import pygame
+import math
 import blockland.player
 import blockland.world
 
@@ -34,10 +35,25 @@ while running:
 	if(keysPressed[pygame.K_d]):
 		player.x -= player.movementSpeed
 
+	# Left Click
 	if(pygame.mouse.get_pressed()[0]):
 		for block in world.blockList.sprites():
 			if(block.rect.collidepoint(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])):
 				world.blockList.remove(block)
+
+	# Right Click
+	if(pygame.mouse.get_pressed()[2]):
+		blockFound = False
+		for block in world.blockList.sprites():
+			if(block.rect.collidepoint(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])):
+				blockFound = True
+
+		if(blockFound == False):
+			clickX = pygame.mouse.get_pos()[0] - player.cameraOffset[0]
+			clickY = pygame.mouse.get_pos()[1] - player.cameraOffset[1]
+			gridX = (clickX - (clickX % 32)) / 32
+			gridY = (clickY - (clickY % 32)) / 32
+			world.createBlock(gridX, gridY, 1)
 
 	player.calculateCameraOffset()
 	world.draw(screen, player.cameraOffset)
